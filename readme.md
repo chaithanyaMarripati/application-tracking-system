@@ -1,16 +1,18 @@
 https://user-images.githubusercontent.com/89501363/144725439-5d9191f8-df13-4814-aa15-99cd752ab0cc.mp4
 
-[![GitHub license](https://img.shields.io/github/license/kingan1/application-tracking-system)](https://github.com/kingan1/application-tracking-system/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/Cynamide/application-tracking-system)](https://github.com/Cynamide/application-tracking-system/blob/main/LICENSE)
 [![DOI](https://zenodo.org/badge/426259091.svg)](https://zenodo.org/badge/latestdoi/426259091)
-[![codecov](https://codecov.io/gh/kingan1/application-tracking-system/branch/main/graph/badge.svg)](https://codecov.io/gh/kingan1/application-tracking-system)
-![GitHub issues](https://img.shields.io/github/issues/kingan1/application-tracking-system)
-![GitHub issues](https://img.shields.io/github/issues-closed/kingan1/application-tracking-system)
-![GitHub top language](https://img.shields.io/github/languages/top/kingan1/application-tracking-system)
+[![codecov](https://codecov.io/gh/Cynamide/application-tracking-system/branch/main/graph/badge.svg)](https://codecov.io/gh/Cynamide/application-tracking-system)
+![GitHub issues](https://img.shields.io/github/issues/Cynamide/application-tracking-system)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/Cynamide/application-tracking-system)
+![GitHub top language](https://img.shields.io/github/languages/top/Cynamide/application-tracking-system)
 
 [![Build and Deploy Frontend](https://github.com/kingan1/application-tracking-system/actions/workflows/frontend_CI_CD.yml/badge.svg)](https://github.com/kingan1/application-tracking-system/actions/workflows/frontend_CI_CD.yml)
 [![Super Linter](https://github.com/kingan1/application-tracking-system/actions/workflows/super-linter.yml/badge.svg)](https://github.com/kingan1/application-tracking-system/actions/workflows/super-linter.yml)
 
 #      J-Tracker - Your Job Tracking Assistant
+
+
 
 https://user-images.githubusercontent.com/43064854/135554150-c06afd4e-d223-47e3-b123-b45f9cd1b87a.mp4
 
@@ -22,26 +24,36 @@ Our application keeps track of the jobs you've added to your wish list. It also 
 
 ## Table of contents
 
-- [Basic Design](#basic-design)
-- [Demo](#demo)
-- [Improvements](#improvements)
-    + [Whats New](#whats-new)
-- [Roadmap](#roadmap)
-- [Future Scope](#future-scope)
-- [Explanation](#explanation)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-    + [Requirements](#requirements)
-    + [Strongly Recommended](#strongly-recommended)
-- [Getting Started](#getting-started)
-    + [Boot](#boot)
-    + [Shutdown](#shutdown)
-- [Hosting the Database](#hosting-the-database)
-    + [Local MongoDB](#local-mongodb)
-    + [Hosted database with MongoDB Atlas](#hosted-database-with-mongodb-atlas)
-- [License](#license)
-- [How to Contribute](#how-to-contribute)
-- [Team Members](#team-members)
+- [J-Tracker - Your Job Tracking Assistant](#j-tracker---your-job-tracking-assistant)
+  - [Table of contents](#table-of-contents)
+  - [Basic Design:](#basic-design)
+  - [Samples:](#samples)
+    - [Login Page / Signup Page](#login-page--signup-page)
+    - [HomeScreen](#homescreen)
+    - [SearchPage](#searchpage)
+    - [SearchPage with Salary filter](#searchpage-with-salary-filter)
+    - [ResumePage](#resumepage)
+    - [Recommendations Page](#recommendations-page)
+    - [Whats New](#whats-new)
+      - [Version 1.1](#version-11)
+      - [Version 1.0.3](#version-103)
+      - [Version 1.1.1](#version-111)
+  - [Roadmap:](#roadmap)
+  - [Future Scope:](#future-scope)
+  - [Explanation:](#explanation)
+  - [Technologies Used:](#technologies-used)
+  - [Installation:](#installation)
+    - [Requirements:](#requirements)
+    - [Strongly Recommended:](#strongly-recommended)
+  - [Getting Started:](#getting-started)
+    - [Boot:](#boot)
+    - [Shutdown:](#shutdown)
+  - [Hosting the Database:](#hosting-the-database)
+    - [Local MongoDB:](#local-mongodb)
+    - [Hosted database with MongoDB Atlas:](#hosted-database-with-mongodb-atlas)
+  - [License](#license)
+  - [How to Contribute?](#how-to-contribute)
+  - [Team Members (Group 16)](#team-members-group-16)
 
 
 
@@ -94,6 +106,14 @@ The interface through which a user is able to search for specific jobs based on 
 
 <p align="center"><img width="700" src="./resources/resume.png"></p>
 
+### Recommendations Page
+
+1. Assuming that you have uploaded your resume on the resume page
+2. Click on the get recommendations button
+3. View the recommended companies returned by ChatGPT API
+
+<p align="center"><img width="700" src="./resources/recommendations.png"></p>
+
 
 ### Whats New
 
@@ -115,6 +135,12 @@ The interface through which a user is able to search for specific jobs based on 
 - Login frontend for login and signup functionality
 - Search custom date
 
+#### Version 1.1.1
+
+- Added intelligent job recommendations based on OpenAI ChatGPT's API response
+- Used the OpenAI api to analyze resume uploaded by user and intelligently recommend companies to apply to
+- Updated badges for repository
+- Updated github workflows files
 
 
 ## Roadmap:
@@ -220,10 +246,8 @@ The project is licensed under the [MIT](https://choosealicense.com/licenses/mit/
 Please see our CONTRIBUTING.md for instructions on how to contribute to the repository and assist us in improving the project.
 
 
-## Team Members
-- Ashley King
-- Manoj Kumar
-- Rakesh Muppala
-- Sayali Parab
-- Ashwin Das
-- Renji Joseph Sabu 
+## Team Members (Group 16)
+- Arjit Agarwal
+- Mark Feng
+- Reuben Thomas
+- Sumedh Deepak Patkar
