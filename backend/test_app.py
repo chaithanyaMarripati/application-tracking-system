@@ -32,7 +32,7 @@ def client():
         password = info["password"]
         app.config["MONGODB_SETTINGS"] = {
             "db": "appTracker",
-            "host": f"mongodb+srv://{username}:{password}@applicationtracker.287am.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+            "host": f"mongodb+srv://{username}:{password}@applicationtracker.p70m6nv.mongodb.net/?retryWrites=true&w=majority",
         }
     db = MongoEngine()
     db.disconnect()
@@ -263,4 +263,15 @@ def test_resume(client, mocker, user):
     )
     assert rv.status_code == 200
     rv = client.get("/resume", headers=header)
+    assert rv.status_code == 200
+
+def test_recommend_jobs(user):
+    """
+    Tests that the recommendation endpoint works and returns data
+    param
+    """
+    user, header = user
+    user["applications"] = []
+    user.save()
+    rv = client.get("/recommend_jobs", headers=header)
     assert rv.status_code == 200
