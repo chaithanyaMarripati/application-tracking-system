@@ -273,5 +273,5 @@ def test_recommend_jobs(user):
     user, header = user
     user["applications"] = []
     user.save()
-    rv = client.get("/recommend_jobs", headers=header)
+    rv = client.get("/recommend", headers=header)
     assert rv.status_code == 200
