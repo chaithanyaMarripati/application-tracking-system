@@ -131,6 +131,10 @@ The interface through which a user is able to search for specific jobs based on 
 - Updated badges for repository
 - Updated GitHub workflows files
 
+**Job Recommendations Video (Added in Version 1.1.1)**
+Watch: https://github.com/Cynamide/application-tracking-system/blob/ff0691c919330a2c8cf80854fe969e31214671b4/resources/JobRecommendationsDemo.mp4
+
+
 ## Roadmap:
 
 ![Roadmap](https://github.com/prithvish-doshi-17/application-tracking-system/blob/main/resources/Roadmap%20-%202.PNG)
