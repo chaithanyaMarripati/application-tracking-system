@@ -4,36 +4,36 @@ Application tracker evaluation
 ### Working link (Youtube) : https://youtu.be/bHzqSnM-2VY
 |Criteria|Score|evidence|Notes|
 | -----|-| -------| ----|
-|Video	|||
-|Workload is spread over the whole team (one team member is often Xtimes more productive than the others...|||
-|but nevertheless, here is a track record that everyone is contributing a lot)|||
-|Number of commits||||
-|Number of commits: by different people	||	 ||
-|Issues reports: there are many	|	||
-|Issues are being closed	|	||	|
-|DOI badge: exists		|	||
-|Docs: doco generated, format not ugly	|	|	|
-|Docs: what: point descriptions of each class/function (in isolation)	|	|	|
-|Docs: how: for common use cases X,Y,Z mini-tutorials showing worked examples on how to do X,Y,Z	|	|	|
-|Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing	|	|	|
-|Docs: short video, animated, hosted on your repo. That convinces people why they want to work on your code.	|	|
-|Use of version control tools	|	|	|
-|Use of style checkers	|	|	
-|Use of code formatters.	|	|	|
-|Use of syntax checkers.	|	|	|
-|Use of code coverage		|	|	|
-|Other automated analysis tools	|	||
-|Test cases exist	|	|	|
-|Test cases are routinely executed	|	|	|
-|The files CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up	|	|	|
-|Issues are discussed before they are closed	|	|  | 	|
-|Chat channel: exists	|	|
-|Test cases: a large proportion of the issues related to handling failing cases.	|	|	|
-|Evidence that the whole team is using the same tools: everyone can get to all tools and files	|	|	|
-|Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)	|	|	|
+|Video	|3||
+|Workload is spread over the whole team (one team member is often Xtimes more productive than the others...|3||
+|but nevertheless, here is a track record that everyone is contributing a lot)|2||
+|Number of commits|3|||
+|Number of commits: by different people	|3|	 ||
+|Issues reports: there are many	|	2||
+|Issues are being closed	|	3||	|
+|DOI badge: exists		|	3||
+|Docs: doco generated, format not ugly	|	3|	|
+|Docs: what: point descriptions of each class/function (in isolation)	|	3|	|
+|Docs: how: for common use cases X,Y,Z mini-tutorials showing worked examples on how to do X,Y,Z	|	3|	|
+|Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing	|	3|	|
+|Docs: short video, animated, hosted on your repo. That convinces people why they want to work on your code.	|	3|
+|Use of version control tools	|	3|	|
+|Use of style checkers	|	3|	
+|Use of code formatters.	|	3|	|
+|Use of syntax checkers.	|	3|	|
+|Use of code coverage		|	3|	|
+|Other automated analysis tools	|	3||
+|Test cases exist	|	3|	|
+|Test cases are routinely executed	|	3|	|
+|The files CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up	|	3|	|
+|Issues are discussed before they are closed	|	3|  | 	|
+|Chat channel: exists	|	3|
+|Test cases: a large proportion of the issues related to handling failing cases.	|	3|	|
+|Evidence that the whole team is using the same tools: everyone can get to all tools and files	|	3|	|
+|Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)	|	3|	|
 |Evidence that the whole team is using the same tools (e.g. tutor can ask anyone to share screen, they demonstrate the system running on their computer)	|3	|Comparing Team-Glare:main...kingan1:main · Team-Glare/application-tracking-system (github.com)	|
-|Evidence that the members of the team are working across multiple places in the code base	|	|	|
-|Short release cycles	|	|	|
+|Evidence that the members of the team are working across multiple places in the code base	|	3|	|
+|Short release cycles	|	3|	|
 |Does your website and documentation provide a clear, high-level overview of your software?	|Yes	|kingan1/application-tracking-system: Application Tracking System for Group21, Project 3 (github.com)	|
 |Does your website and documentation clearly describe the type of user who should use your software?	|Yes	|kingan1/application-tracking-system: Application Tracking System for Group21, Project 3 (github.com)	|
 |Do you publish case studies to show how your software has been used by yourself and others?	|No		|
