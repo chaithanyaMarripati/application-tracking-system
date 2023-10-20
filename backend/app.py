@@ -433,7 +433,7 @@ def create_app():
             pdf_content = io.BytesIO(user.resume.read())
             load_pdf = PyPDF2.PdfReader(pdf_content)
             page_content = load_pdf.pages[0].extract_text()
-            prompt = "Analyse the resume below and recommend a list of 15 jobs for the user. All the comapanies should be among the fortune 500. The recommendations should be in a json format with company name, job title, and a link to the company career page.Only display the json. Json structure is {jobs: [{job_title:xx,company_name:xx,career_page:xx}]\n\nResume:\n\n" + page_content + "\n\nRecommendation JSON:"
+            prompt = "Analyse the resume below and recommend a list of 6 jobs for the user. All the comapanies should be among the fortune 500. The recommendations should be in a json format with company name, job title, and a link to the company career page.Only display the json. Json structure is {jobs: [{job_title:xx,company_name:xx,career_page:xx}]\n\nResume:\n\n" + page_content + "\n\nRecommendation JSON:"
             message = [ {"role": "system", "content": prompt} ]
             chat = openai.ChatCompletion.create( 
             model="gpt-3.5-turbo", messages=message

@@ -1,22 +1,18 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import "../static/resume.css";
 
-export default class JobRecommendPage extends Component {
-  componentDidMount() {
-    // fetch the data only after this component is mounted
-    this.getFiles();
-  }
-  constructor(props) {
-    super(props);
-    this.state = {
-      fileName: "",
-      fileuploadname: "",
-      jobRecommendations: {},
-    };
-    this.getFiles.bind(this);
-  }
-  getFiles() {
+function JobRecommendPage() {
+  const [fileName, setFileName] = useState("");
+  const [jobRecommendations, setJobRecommendations] = useState({});
+  const [resumeDownloadContent, setResumeDownloadContent] = useState("");
+
+  useEffect(() => {
+    // Fetch the data only after this component is mounted
+    getFiles();
+  }, []);
+
+  const getFiles = () => {
     $.ajax({
       url: "http://localhost:5000/resume",
       method: "GET",
@@ -30,13 +26,13 @@ export default class JobRecommendPage extends Component {
       },
       credentials: "include",
       success: (message, textStatus, response) => {
-        this.setState({ fileName: response.getResponseHeader("x-fileName") });
-        this.setState({ resumeDownloadContent: message });
+        setFileName(response.getResponseHeader("x-fileName"));
+        setResumeDownloadContent(message);
       },
     });
-  }
+  };
 
-  getRecommendation() {
+  const getRecommendation = () => {
     $.ajax({
       url: "http://localhost:5000/recommend",
       method: "GET",
@@ -47,47 +43,59 @@ export default class JobRecommendPage extends Component {
       },
       contentType: "application/json",
       success: (response) => {
-        let responseJson = JSON.parse(response)
-        this.setState({ jobRecommendations: responseJson });
+        let responseJson = JSON.parse(response);
+        setJobRecommendations(responseJson);
       },
     });
-  }
-  componentDidUpdate() {
-    console.log(this.state.jobRecommendations);
-  }
+  };
 
-  render() {
-    return (
-      <div style={{ marginTop: "10rem" }}>
-        <h2>Uploaded Documents</h2>
-        <table>
+  useEffect(() => {
+    console.log(jobRecommendations);
+  }, [jobRecommendations]);
+
+  return (
+    <div style={{ marginTop: "10rem" }}>
+      <h2>Uploaded Documents</h2>
+      <table>
+        <tbody>
           <tr>
-            <th class="tablecol1">Documents</th>
-            <th class="tablecol2">Actions</th>
+            <th className="tablecol1">Documents</th>
+            <th className="tablecol2">Actions</th>
           </tr>
           <tr>
-            <td class="tablecol1">{this.state.fileName}</td>
-            <td class="tablecol2">
-              <button
-                id="download"
-                onClick={this.getRecommendation.bind(this)}
-                type="button"
-              >
+            <td className="tablecol1">{fileName}</td>
+            <td className="tablecol2">
+              <button id="download" onClick={getRecommendation} type="button">
                 Get Job Recommendations
               </button>
             </td>
           </tr>
-        </table>
-        <h2>Job Recommendations</h2>
-        {Object.keys(this.state.jobRecommendations).length > 0 &&
-          this.state.jobRecommendations.jobs.map((job, index) => (
-            <div key={index}>
-              <h3>{job.job_title}</h3>
-              <p>{job.company_name}</p>
-              <p>{job.career_page}</p>
-            </div>
-          ))}
-      </div>
-    );
-  }
+        </tbody>
+      </table>
+      <h2 style={{ marginTop: "3rem", marginBottom: "2rem" }}>
+        Job Recommendations
+      </h2>
+      <table>
+        <tbody>
+          <tr>
+            <th className="tablecol2">Job Title</th>
+            <th className="tablecol2">Name of the company</th>
+            <th className="tablecol2">Career Page</th>
+          </tr>
+          {Object.keys(jobRecommendations).length > 0 &&
+            jobRecommendations.jobs.map((job, index) => (
+              <tr key={index}>
+                <td className="tablecol2">{job.job_title}</td>
+                <td className="tablecol2">{job.company_name}</td>
+                <td className="tablecol2">
+                  <a href={job.career_page}>{job.career_page}</a>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
+
+export default JobRecommendPage;
