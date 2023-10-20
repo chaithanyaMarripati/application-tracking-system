@@ -127,9 +127,9 @@ The interface through which a user is able to search for specific jobs based on 
 #### Version 1.1.1
 
 - Added intelligent job recommendations based on OpenAI ChatGPT's API response
-- Used the OpenAI api to analyze resume uploaded by user and intelligently recommend companies to apply to
+- Used the OpenAI API to analyze resume uploaded by user and intelligently recommend companies to apply to
 - Updated badges for repository
-- Updated github workflows files
+- Updated GitHub workflows files
 
 ## Roadmap:
 
@@ -143,7 +143,7 @@ The interface through which a user is able to search for specific jobs based on 
 - Add a storage option for resumes and cover letters so they can be saved for future use.
 - Include a direct link to the company's application site when the wishlist item is clicked.
 - Include a link to the university’s career fair page.
-- Direct connection to Linkedin, allowing for the addition of job opportunities to the wishlist.
+- Direct connection to LinkedIn, allowing for the addition of job opportunities to the wishlist.
 - Improve keyword search to improve specifications such as pay range, employment location, and so on.
 - An option to maintain separate profiles for job tracking.
 
@@ -161,7 +161,7 @@ Any details in any table can be modified at any time during the process.
 ## Technologies Used:
 
 - Python
-- Node.Js
+- Node.js
 - Flask
 - MongoDB
 
