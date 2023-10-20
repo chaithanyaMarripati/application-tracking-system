@@ -26,14 +26,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest pytest-cov coverage
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install -r ./backend/requirements.txt
+        pip install -r requirements.txt
     - name: Test with pytest, upload to codecov
       run: |
         cd ./backend
         echo 'Created application.yml'
         pwd
         pytest --cov-report xml:cov.xml --cov=./ ./
-    - name: "Upload coverage to Codecov"
-      uses: codecov/codecov-action@v1
-      with:
-        fail_ci_if_error: true
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
