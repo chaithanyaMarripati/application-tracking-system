@@ -6,9 +6,7 @@ https://user-images.githubusercontent.com/89501363/144725439-5d9191f8-df13-4814-
 ![GitHub issues](https://img.shields.io/github/issues/Cynamide/application-tracking-system)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/Cynamide/application-tracking-system)
 ![GitHub top language](https://img.shields.io/github/languages/top/Cynamide/application-tracking-system)
-
-[![Build and Deploy Frontend](https://github.com/kingan1/application-tracking-system/actions/workflows/frontend_CI_CD.yml/badge.svg)](https://github.com/kingan1/application-tracking-system/actions/workflows/frontend_CI_CD.yml)
-[![Super Linter](https://github.com/kingan1/application-tracking-system/actions/workflows/super-linter.yml/badge.svg)](https://github.com/kingan1/application-tracking-system/actions/workflows/super-linter.yml)
+[![Super Linter](https://github.com/Cynamide/application-tracking-system/actions/workflows/super-linter.yml/badge.svg)](https://github.com/Cynamide/application-tracking-system/actions/workflows/super-linter.yml)
 
 # J-Tracker - Your Job Tracking Assistant
 
