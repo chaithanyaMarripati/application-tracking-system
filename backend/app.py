@@ -161,10 +161,12 @@ def create_app():
                 return jsonify({"error": "Missing fields in input"}), 400
 
             username_exists = Users.objects(username=data["username"])
+            print("herer")
             if len(username_exists) != 0:
                 return jsonify({"error": "Username already exists"}), 400
             password = data["password"]
             password_hash = hashlib.md5(password.encode())
+            print("hereawdawdar")
             user = Users(
                 id=get_new_user_id(),
                 fullName=data["fullName"],
@@ -173,7 +175,9 @@ def create_app():
                 authTokens=[],
                 applications=[],
             )
+            print("here12123r")
             user.save()
+            print("herer22222")
             return jsonify(user.to_json()), 200
         except:
             return jsonify({"error": "Internal server error"}), 500
