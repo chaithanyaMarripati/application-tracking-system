@@ -1,7 +1,7 @@
 https://user-images.githubusercontent.com/89501363/144725439-5d9191f8-df13-4814-aa15-99cd752ab0cc.mp4
 
 [![GitHub license](https://img.shields.io/github/license/Cynamide/application-tracking-system)](https://github.com/Cynamide/application-tracking-system/blob/main/LICENSE)
-[![DOI](https://zenodo.org/badge/426259091.svg)](https://zenodo.org/badge/latestdoi/426259091)
+[![DOI](https://zenodo.org/badge/702631309.svg)](https://zenodo.org/doi/10.5281/zenodo.10026046)
 [![codecov](https://codecov.io/gh/Cynamide/application-tracking-system/branch/main/graph/badge.svg)](https://codecov.io/gh/Cynamide/application-tracking-system)
 ![GitHub issues](https://img.shields.io/github/issues/Cynamide/application-tracking-system)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/Cynamide/application-tracking-system)
