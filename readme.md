@@ -10,17 +10,13 @@ https://user-images.githubusercontent.com/89501363/144725439-5d9191f8-df13-4814-
 [![Build and Deploy Frontend](https://github.com/kingan1/application-tracking-system/actions/workflows/frontend_CI_CD.yml/badge.svg)](https://github.com/kingan1/application-tracking-system/actions/workflows/frontend_CI_CD.yml)
 [![Super Linter](https://github.com/kingan1/application-tracking-system/actions/workflows/super-linter.yml/badge.svg)](https://github.com/kingan1/application-tracking-system/actions/workflows/super-linter.yml)
 
-#      J-Tracker - Your Job Tracking Assistant
-
-
+# J-Tracker - Your Job Tracking Assistant
 
 https://user-images.githubusercontent.com/43064854/135554150-c06afd4e-d223-47e3-b123-b45f9cd1b87a.mp4
 
 The process of applying for jobs and internships is not a cakewalk. Managing job applications is a time-consuming process. Due to the referrals and deadlines, the entire procedure can be stressful. Our application allows you to track and manage your job application process, as well as regulate it, without the use of cumbersome Excel spreadsheets.
 
-
 Our application keeps track of the jobs you've added to your wish list. It also keeps track of the companies you've already applied to and keeps a list of any rejections. Rather than having the user browse each company's site for potential prospects, our application allows the applicant to search for them directly using basic keywords. Any prospective work offers can then be added to the applicant's wishlist.
-
 
 ## Table of contents
 
@@ -55,9 +51,8 @@ Our application keeps track of the jobs you've added to your wish list. It also 
   - [How to Contribute?](#how-to-contribute)
   - [Team Members (Group 16)](#team-members-group-16)
 
-
-
 ## Basic Design:
+
 ![Basic Design](https://github.com/prithvish-doshi-17/application-tracking-system/blob/main/resources/Overall%20Design.PNG)
 
 ## Samples:
@@ -68,13 +63,11 @@ The introductory visual interface displayed from which a user is able to registe
 
 <p align="center"><img width="700" src="./resources/login.png"></p>
 
-
 ### HomeScreen
 
 The introductory visual interface displayed from which a user is able to access different cards - Waitlisted applications, Waiting for Refereals, Applied Jobs, Application Status.The user can also add cards through this screen.
 
 <p align="center"><img width="700" src="./resources/home_screen.png"></p>
-
 
 ### SearchPage
 
@@ -87,7 +80,6 @@ The interface through which a user is able to search for specific jobs and add t
 
 <p align="center"><img width="700" src="./resources/search.png"></p>
 <p align="center"><img width="700" src="./resources/newjobdetails1.PNG"></p>
-
 
 ### SearchPage with Salary filter
 
@@ -113,7 +105,6 @@ The interface through which a user is able to search for specific jobs based on 
 3. View the recommended companies returned by ChatGPT API
 
 <p align="center"><img width="700" src="./resources/recommendations.png"></p>
-
 
 ### Whats New
 
@@ -142,111 +133,131 @@ The interface through which a user is able to search for specific jobs based on 
 - Updated badges for repository
 - Updated github workflows files
 
-
 ## Roadmap:
+
 ![Roadmap](https://github.com/prithvish-doshi-17/application-tracking-system/blob/main/resources/Roadmap%20-%202.PNG)
 
+## Future Scope:
 
-## Future Scope: 
-* Include deadline reminders for the application and interview.
-* Add a feature that allows users to attach these reminders to their Google calendar.
-* Incorporate notifications for upcoming deadlines. 
-* Add a storage option for resumes and cover letters so they can be saved for future use.
-* Include a direct link to the company's application site when the wishlist item is clicked.
-* Include a link to the university’s career fair page. 
-* Direct connection to Linkedin, allowing for the addition of job opportunities to the wishlist.
-* Improve keyword search to improve specifications such as pay range, employment location, and so on.
-* An option to maintain separate profiles for job tracking.
-
+- Include deadline reminders for the application and interview.
+- Add a feature that allows users to attach these reminders to their Google calendar.
+- Incorporate notifications for upcoming deadlines.
+- Add a storage option for resumes and cover letters so they can be saved for future use.
+- Include a direct link to the company's application site when the wishlist item is clicked.
+- Include a link to the university’s career fair page.
+- Direct connection to Linkedin, allowing for the addition of job opportunities to the wishlist.
+- Improve keyword search to improve specifications such as pay range, employment location, and so on.
+- An option to maintain separate profiles for job tracking.
 
 ## Explanation:
 
 Currently, we have four fundamental steps in our project:
-
 
 1. The position for which you have applied
 2. The job you want to apply for, without a referral
 3. The job at which you have faced rejection, and
 4. The job you're waiting for a referral.
 
-
 Any details in any table can be modified at any time during the process.
 
 ## Technologies Used:
 
-* Python
-* Node.Js
-* Flask
-* MongoDB
+- Python
+- Node.Js
+- Flask
+- MongoDB
 
 ## Installation:
+
 ### Requirements:
-* [Python](https://www.python.org/downloads/) (recommended >= 3.8)
-* [pip](https://pip.pypa.io/en/stable/installation/) (Latest version 21.3 used as of 11/3)
-* [npm](https://nodejs.org/en/) (Latest version 6.14.4 used as of 11/3)
+
+- [Python](https://www.python.org/downloads/) (recommended >= 3.8)
+- [pip](https://pip.pypa.io/en/stable/installation/) (Latest version 21.3 used as of 11/3)
+- [npm](https://nodejs.org/en/) (Latest version 6.14.4 used as of 11/3)
+
 ### Strongly Recommended:
-* A terminal environment capable of handling bash scripts.
+
+- A terminal environment capable of handling bash scripts.
 
 To install all required packages, while within the context of project root directory, run:
+
 ```
 ./setup.sh
 ```
+
 This will handle all npm and pip package installations required for both the front and backend.
 
-*If the script says "command not found" or something similar, run chmod +x ./setup.sh. This grants the script execution privileges. Depending on your setup, this may occur for the boot_dockerless files, amongst others. The same command will fix the issue.*
+_If the script says "command not found" or something similar, run chmod +x ./setup.sh. This grants the script execution privileges. Depending on your setup, this may occur for the boot_dockerless files, amongst others. The same command will fix the issue._
 
 ## Getting Started:
+
 ### Boot:
+
 To run a testing environment, run:
+
 ```
 ./startup.sh
 ```
+
 This will run flask and npm simultaneously, booting both the front and backend. Note - npm takes substantially longer to boot compared to flask.
+
 ### Shutdown:
+
 To ensure that flask is no longer occupying a port, run:
+
 ```
 ./shutdown.sh
 ```
+
 This will search for any active process containing "flask" and kill the process.
 
 ## Hosting the Database:
+
 ### Local MongoDB:
+
 1. Download [MongoDB Community Server](https://docs.mongodb.com/manual/administration/install-community/)
 2. Follow the [Installion Guide](https://docs.mongodb.com/guides/server/install/)
-3. In  ```app.py```  set  ```'host'```  string to  ```'localhost'```
-4. Run the local database: 
-``` 
-mongod 
-```
-* Recommended: Use a GUI such as [Studio 3T](https://studio3t.com/download/) to more easily interact with the database
+3. In `app.py` set `'host'` string to `'localhost'`
+4. Run the local database:
 
+```
+mongod
+```
+
+- Recommended: Use a GUI such as [Studio 3T](https://studio3t.com/download/) to more easily interact with the database
 
 ### Hosted database with MongoDB Atlas:
+
 1. [Create account](https://account.mongodb.com/account/register) for MongoDB
- 
-** ___If current MongoDB Atlas owner adds your username/password to the cluster, skip to step 4___ **
+
+** **_If current MongoDB Atlas owner adds your username/password to the cluster, skip to step 4_** **
 
 2. Follow MongoDB Atlas [Setup Guide](https://docs.atlas.mongodb.com/getting-started/) to create a database collection for hosting applications
-3. In  ```app.py```  set  ```'host'```  string to your MongoDB Atlas connection string
-4. Create an  ```application.yml```  file in the /backend directory with the specifications:
+3. In `app.py` set `'host'` string to your MongoDB Atlas connection string
+4. Create an `application.yml` file in the /backend directory with the specifications:
+
 ```
 username: <MongoDB Atlas cluster username>
 password: <MongoDB Atlas cluster password>
 ```
+
 5. For testing through CI to function as expected, repository secrets will need to be added through the settings. Create individual secrets with the following keys/values:
+
 ```
 MONGO_USER: <MongoDB Atlas cluster username>
 MONGO_PASS: <MongoDB Atlas cluster password>
 ```
-## License
-The project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) license. 
 
+## License
+
+The project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) license.
 
 ## How to Contribute?
+
 Please see our CONTRIBUTING.md for instructions on how to contribute to the repository and assist us in improving the project.
 
-
 ## Team Members (Group 16)
+
 - Arjit Agarwal
 - Mark Feng
 - Reuben Thomas
