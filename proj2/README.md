@@ -21,19 +21,19 @@ Application tracker evaluation
 |Use of style checkers	|	|	
 |Use of code formatters.	|	|	|
 |Use of syntax checkers.	|	|	|
-|Use of code coverage		|3	|application-tracking-system/requirements.txt at main · kingan1/application-tracking-system (github.com)	|
-|Other automated analysis tools	|3	|application-tracking-system/requirements.txt at main · kingan1/application-tracking-system (github.com)	|
-|Test cases exist	|1	|application-tracking-system/backend/test_app.py at build_fix · kingan1/application-tracking-system (github.com)	|
-|Test cases are routinely executed	|2	|application-tracking-system/.github/workflows/pytest_ci.yml at main · kingan1/application-tracking-system	|
-|The files CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up	|2	|application-tracking-system/Contributing.md at main · kingan1/application-tracking-system (github.com)	|
+|Use of code coverage		|	|	|
+|Other automated analysis tools	|	||
+|Test cases exist	|	|	|
+|Test cases are routinely executed	|	|	|
+|The files CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up	|	|	|
 |Issues are discussed before they are closed	|	|  | 	|
-|Chat channel: exists	|3	|https://github.com/kingan1/application-tracking-system/blob/main/docs/proj1rubric.md	
-|Test cases: a large proportion of the issues related to handling failing cases.	|2	|application-tracking-system/backend/test_app.py at main · kingan1/application-tracking-system (github.com)	|
-|Evidence that the whole team is using the same tools: everyone can get to all tools and files	|3	|Comparing Team-Glare:main...kingan1:main · Team-Glare/application-tracking-system (github.com)	|
-|Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)	|3	|Comparing Team-Glare:main...kingan1:main · Team-Glare/application-tracking-system (github.com)	|
+|Chat channel: exists	|	|
+|Test cases: a large proportion of the issues related to handling failing cases.	|	|	|
+|Evidence that the whole team is using the same tools: everyone can get to all tools and files	|	|	|
+|Evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)	|	|	|
 |Evidence that the whole team is using the same tools (e.g. tutor can ask anyone to share screen, they demonstrate the system running on their computer)	|3	|Comparing Team-Glare:main...kingan1:main · Team-Glare/application-tracking-system (github.com)	|
-|Evidence that the members of the team are working across multiple places in the code base	|2	|Comparing Team-Glare:main...kingan1:main · Team-Glare/application-tracking-system (github.com)	|
-|Short release cycles	|3	|Releases · kingan1/application-tracking-system (github.com)	|
+|Evidence that the members of the team are working across multiple places in the code base	|	|	|
+|Short release cycles	|	|	|
 |Does your website and documentation provide a clear, high-level overview of your software?	|Yes	|kingan1/application-tracking-system: Application Tracking System for Group21, Project 3 (github.com)	|
 |Does your website and documentation clearly describe the type of user who should use your software?	|Yes	|kingan1/application-tracking-system: Application Tracking System for Group21, Project 3 (github.com)	|
 |Do you publish case studies to show how your software has been used by yourself and others?	|No		|
