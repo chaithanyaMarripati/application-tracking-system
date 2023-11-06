@@ -13,8 +13,10 @@ from backend.utils.jsonResponse import jsonResponse
 from backend.utils.tokenFromHeader import tokenFromHeader
 from backend.utils.userIdFromtoken import getUseridFromtoken 
 from backend.routes.login import loginRoute
-from backend.routes.logout import logoutRoute 
-
+from backend.routes.logout import logoutRoute
+from backend.routes.signup import signupRoute
+from backend.middleware.beforeRequest import beforeRequestMiddleware
+from backend.routes.applications import getApplications
 
 from dotenv import load_dotenv
 
@@ -51,44 +53,7 @@ def create_app():
 
     @app.before_request
     def middleware():
-        """
-        Checks for user authorization tokens and returns message
-
-        :return: JSON object
-        """
-        try:
-            if request.method == "OPTIONS":
-                return jsonify({"success": "OPTIONS"}), 200
-            if request.path in existing_endpoints:
-                headers = request.headers
-                try:
-                    token = headers["Authorization"].split(" ")[1]
-                except:
-                    return jsonify({"error": "Unauthorized"}), 401
-                userid = token.split(".")[0]
-                user = Users.objects(id=userid).first()
-
-                if user is None:
-                    return jsonify({"error": "Unauthorized"}), 401
-
-                expiry_flag = False
-                for tokens in user["authTokens"]:
-                    if tokens["token"] == token:
-                        expiry = tokens["expiry"]
-                        expiry_time_object = datetime.strptime(
-                            expiry, "%m/%d/%Y, %H:%M:%S"
-                        )
-                        if datetime.now() <= expiry_time_object:
-                            expiry_flag = True
-                        else:
-                            delete_auth_token(tokens, userid)
-                        break
-
-                if not expiry_flag:
-                    return jsonify({"error": "Unauthorized"}), 401
-
-        except:
-            return jsonify({"error": "Internal server error"}), 500
+        return beforeRequestMiddleware(request,existing_endpoints,Users) 
 
     def get_token_from_header():
         return tokenFromHeader(request)
@@ -97,58 +62,10 @@ def create_app():
     def get_userid_from_header():
         return getUseridFromtoken(request)
 
-        
-    def delete_auth_token(token_to_delete, user_id):
-        """
-        Deletes authorization token of the given user from the database
-
-        :param token_to_delete: token to be deleted
-        :param user_id: user id of the current active user
-        :return: string
-        """
-        user = Users.objects(id=user_id).first()
-        auth_tokens = []
-        for token in user["authTokens"]:
-            if token != token_to_delete:
-                auth_tokens.append(token)
-        user.update(authTokens=auth_tokens)
-
     @app.route("/users/signup", methods=["POST"])
     def sign_up():
-        """
-        Creates a new user profile and adds the user to the database and returns the message
-
-        :return: JSON object
-        """
-        try:
-            data = json.loads(request.data)
-            print(data)
-            try:
-                _ = data["username"]
-                _ = data["password"]
-                _ = data["fullName"]
-            except:
-                return jsonify({"error": "Missing fields in input"}), 400
-
-            username_exists = Users.objects(username=data["username"])
-            if len(username_exists) != 0:
-                return jsonify({"error": "Username already exists"}), 400
-            password = data["password"]
-            password_hash = hashlib.md5(password.encode())
-            user = Users(
-                id=get_new_user_id(),
-                fullName=data["fullName"],
-                username=data["username"],
-                password=password_hash.hexdigest(),
-                authTokens=[],
-                applications=[],
-            )
-            user.save()
-            return jsonify(user.to_json()), 200
-        except exception as error:
-            print(error)
-            return jsonify({"error": "Internal server error"}), 500
-
+        return signupRoute(request,Users)
+       
     @app.route("/users/login", methods=["POST"])
     def login():
        return loginRoute(request,Users)
@@ -222,18 +139,8 @@ def create_app():
     # get data from the CSV file for rendering root page
     @app.route("/applications", methods=["GET"])
     def get_data():
-        """
-        Gets user's applications data from the database
+        return getApplications(request,Users,userId)
 
-        :return: JSON object with application data
-        """
-        try:
-            userid = get_userid_from_header()
-            user = Users.objects(id=userid).first()
-            applications = user["applications"]
-            return jsonify(applications)
-        except:
-            return jsonify({"error": "Internal server error"}), 500
 
     @app.route("/applications", methods=["POST"])
     def add_application():
@@ -466,42 +373,6 @@ class Users(db.Document):
         :return: JSON object
         """
         return {"id": self.id, "fullName": self.fullName, "username": self.username}
-
-
-def get_new_user_id():
-    """
-    Returns the next value to be used for new user
-
-    :return: key with new user_id
-    """
-    user_objects = Users.objects()
-    if len(user_objects) == 0:
-        return 1
-
-    new_id = 0
-    for a in user_objects:
-        new_id = max(new_id, a["id"])
-
-    return new_id + 1
-
-
-def get_new_application_id(user_id):
-    """
-    Returns the next value to be used for new application
-
-    :param: user_id: User id of the active user
-    :return: key with new application_id
-    """
-    user = Users.objects(id=user_id).first()
-
-    if len(user["applications"]) == 0:
-        return 1
-
-    new_id = 0
-    for a in user["applications"]:
-        new_id = max(new_id, a["id"])
-
-    return new_id + 1
 
 
 if __name__ == "__main__":
