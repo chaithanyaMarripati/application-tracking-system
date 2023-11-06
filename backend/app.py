@@ -11,19 +11,13 @@ from bs4 import BeautifulSoup
 from itertools import islice
 from webdriver_manager.chrome import ChromeDriverManager
 from bson.json_util import dumps
-import pandas as pd
-import json
 from datetime import datetime, timedelta
-import yaml
-import hashlib
-import PyPDF2
-import uuid
-import io
-import os
-import openai 
-
-
+import yaml,uuid,io,os,openapi,PyPDF2,hashlib,json, pandas as pd,
+from backend.utils.jsonResponse import jsonResponse
 from dotenv import load_dotenv
+from backend.utils.tokenFromHeader import tokenFromHeader
+
+
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -31,34 +25,24 @@ existing_endpoints = ["/applications", "/resume","/recommend"]
 
 
 def create_app():
-    """
-    Creates a server hosted on localhost
-
-    :return: Flask object
-    """
     app = Flask(__name__)
+
     # make flask support CORS
     CORS(app)
     app.config["CORS_HEADERS"] = "Content-Type"
 
     @app.errorhandler(404)
     def page_not_found(e):
-        """
-        Returns a json object to indicate error 404
-
-        :return: JSON object
-        """
-        return jsonify({"error": "Not Found"}), 404
+        return jsonResponse("Not Found",404)
 
     @app.errorhandler(405)
-    # pylint: disable=C0103
     def page_not_allowed(e):
-        """
-        Returns a json object to indicate error 405
-
-        :return: JSON object
-        """
-        return jsonify({"error": "Method not Allowed"}), 405
+        return jsonResponse("Method not allowed",405)
+    
+    @app.route("/")
+    @cross_origin()
+    def health_check():
+        return jsonResponse("Server up and running",200)
 
     @app.before_request
     def middleware():
@@ -102,14 +86,8 @@ def create_app():
             return jsonify({"error": "Internal server error"}), 500
 
     def get_token_from_header():
-        """
-        Evaluates token from the request header
+        return tokenFromHeader(request)
 
-        :return: string
-        """
-        headers = request.headers
-        token = headers["Authorization"].split(" ")[1]
-        return token
 
     def get_userid_from_header():
         """
@@ -136,11 +114,6 @@ def create_app():
             if token != token_to_delete:
                 auth_tokens.append(token)
         user.update(authTokens=auth_tokens)
-
-    @app.route("/")
-    @cross_origin()
-    def health_check():
-        return jsonify({"message": "Server up and running"}), 200
 
     @app.route("/users/signup", methods=["POST"])
     def sign_up():
