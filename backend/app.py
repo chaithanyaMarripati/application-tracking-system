@@ -1,7 +1,3 @@
-"""
-The flask application for our program
-"""
-# importing required python libraries
 from flask import Flask, jsonify, request, send_file
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS, cross_origin
@@ -12,11 +8,15 @@ from itertools import islice
 from webdriver_manager.chrome import ChromeDriverManager
 from bson.json_util import dumps
 from datetime import datetime, timedelta
-import yaml,uuid,io,os,openapi,PyPDF2,hashlib,json, pandas as pd,
+import yaml,uuid,io,os,openai,PyPDF2,hashlib,json, pandas as pd
 from backend.utils.jsonResponse import jsonResponse
-from dotenv import load_dotenv
 from backend.utils.tokenFromHeader import tokenFromHeader
+from backend.utils.userIdFromtoken import getUseridFromtoken 
+from backend.routes.login import loginRoute
+from backend.routes.logout import logoutRoute 
 
+
+from dotenv import load_dotenv
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -33,12 +33,17 @@ def create_app():
 
     @app.errorhandler(404)
     def page_not_found(e):
-        return jsonResponse("Not Found",404)
+        return jsonResponse("Page not Found",404)
 
     @app.errorhandler(405)
     def page_not_allowed(e):
         return jsonResponse("Method not allowed",405)
-    
+   
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        print("error",e)
+        return jsonResponse("server error",500)
+
     @app.route("/")
     @cross_origin()
     def health_check():
@@ -90,16 +95,9 @@ def create_app():
 
 
     def get_userid_from_header():
-        """
-        Evaluates user id from the request header
+        return getUseridFromtoken(request)
 
-        :return: string
-        """
-        headers = request.headers
-        token = headers["Authorization"].split(" ")[1]
-        userid = token.split(".")[0]
-        return userid
-
+        
     def delete_auth_token(token_to_delete, user_id):
         """
         Deletes authorization token of the given user from the database
@@ -123,7 +121,6 @@ def create_app():
         :return: JSON object
         """
         try:
-            # print(request.data)
             data = json.loads(request.data)
             print(data)
             try:
@@ -134,12 +131,10 @@ def create_app():
                 return jsonify({"error": "Missing fields in input"}), 400
 
             username_exists = Users.objects(username=data["username"])
-            print("herer")
             if len(username_exists) != 0:
                 return jsonify({"error": "Username already exists"}), 400
             password = data["password"]
             password_hash = hashlib.md5(password.encode())
-            print("hereawdawdar")
             user = Users(
                 id=get_new_user_id(),
                 fullName=data["fullName"],
@@ -148,65 +143,21 @@ def create_app():
                 authTokens=[],
                 applications=[],
             )
-            print("here12123r")
             user.save()
-            print("herer22222")
             return jsonify(user.to_json()), 200
-        except:
+        except exception as error:
+            print(error)
             return jsonify({"error": "Internal server error"}), 500
 
     @app.route("/users/login", methods=["POST"])
     def login():
-        """
-        Logs in the user and creates a new authorization token and stores in the database
+       return loginRoute(request,Users)
 
-        :return: JSON object with status and message
-        """
-        try:
-            try:
-                data = json.loads(request.data)
-                _ = data["username"]
-                _ = data["password"]
-            except:
-                return jsonify({"error": "Username or password missing"}), 400
-            password_hash = hashlib.md5(data["password"].encode()).hexdigest()
-            user = Users.objects(
-                username=data["username"], password=password_hash
-            ).first()
-            if user is None:
-                return jsonify({"error": "Wrong username or password"})
-            token = str(user["id"]) + "." + str(uuid.uuid4())
-            expiry = datetime.now() + timedelta(days=1)
-            expiry_str = expiry.strftime("%m/%d/%Y, %H:%M:%S")
-            auth_tokens_new = user["authTokens"] + [
-                {"token": token, "expiry": expiry_str}
-            ]
-            user.update(authTokens=auth_tokens_new)
-            return jsonify({"token": token, "expiry": expiry_str})
-        except:
-            return jsonify({"error": "Internal server error"}), 500
 
     @app.route("/users/logout", methods=["POST"])
     def logout():
-        """
-        Logs out the user and deletes the existing token from the database
+        return logoutRoute(request ,Users)
 
-        :return: JSON object with status and message
-        """
-        try:
-            userid = get_userid_from_header()
-            user = Users.objects(id=userid).first()
-            auth_tokens = []
-            incoming_token = get_token_from_header()
-            for token in user["authTokens"]:
-                if token["token"] != incoming_token:
-                    auth_tokens.append(token)
-            user.update(authTokens=auth_tokens)
-
-            return jsonify({"success": ""}), 200
-
-        except:
-            return jsonify({"error": "Internal server error"}), 500
 
     # search function
     # params:
@@ -486,9 +437,11 @@ with open("application.yml") as f:
     username = info["username"]
     password = info["password"]
     app.config["MONGODB_SETTINGS"] = {
-        "db": "appTracker",
-        "host": f"mongodb+srv://{username}:{password}@applicationtracker.p70m6nv.mongodb.net/?retryWrites=true&w=majority",
+        "db": "sefall23",
+        "host":f"mongodb+srv://{username}:{password}@sefall23proj3.wwrtycq.mongodb.net/"
     }
+    print(app.config["MONGODB_SETTINGS"],"mongodb settings ")
+
 db = MongoEngine()
 db.init_app(app)
 
