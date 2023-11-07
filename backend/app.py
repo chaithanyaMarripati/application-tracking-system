@@ -1,14 +1,7 @@
 from flask import Flask, jsonify, request, send_file
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS, cross_origin
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup
-from itertools import islice
-from webdriver_manager.chrome import ChromeDriverManager
-from bson.json_util import dumps
-from datetime import datetime, timedelta
-import yaml,uuid,io,os,openai,PyPDF2,hashlib,json, pandas as pd
+import yaml,io,os,openai,PyPDF2
 from backend.utils.jsonResponse import jsonResponse
 from backend.utils.tokenFromHeader import tokenFromHeader
 from backend.utils.userIdFromtoken import getUseridFromtoken 
@@ -16,14 +9,14 @@ from backend.routes.login import loginRoute
 from backend.routes.logout import logoutRoute
 from backend.routes.signup import signupRoute
 from backend.middleware.beforeRequest import beforeRequestMiddleware
-from backend.routes.applications import getApplications
-
+from backend.routes.applications import getApplications,addApplication,updateApplication,deleteApplication
+from backend.routes.search import searchRoute
+from backend.routes.recommend import recommendRoute 
 from dotenv import load_dotenv
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
-existing_endpoints = ["/applications", "/resume","/recommend"]
+existing_endpoints = ["applications", "resume","recommend"]
 
 
 def create_app():
@@ -75,207 +68,36 @@ def create_app():
     def logout():
         return logoutRoute(request ,Users)
 
+    # get data from the CSV file for rendering root page
+    @app.route("/applications", methods=["GET"])
+    def get_data():
+        return getApplications(request,Users)
+
+
+    @app.route("/applications", methods=["POST"])
+    def add_application():
+        return addApplication(request,Users)
+
+    @app.route("/applications/<int:application_id>", methods=["PUT"])
+    def update_application(application_id):
+        return updateApplication(request,application_id,Users)
+        
+
+    @app.route("/applications/<int:application_id>", methods=["DELETE"])
+    def delete_application(application_id):
+        return deleteApplication(request,application_id,Users)
 
     # search function
     # params:
     #   -keywords: string
     @app.route("/search")
     def search():
-        """
-        Searches the web and returns the job postings for the given search filters
-
-        :return: JSON object with job results
-        """
-        keywords = (
-            request.args.get("keywords")
-            if request.args.get("keywords")
-            else "random_test_keyword"
-        )
-        salary = request.args.get("salary") if request.args.get("salary") else ""
-        keywords = keywords.replace(" ", "+")
-        if keywords == "random_test_keyword":
-            return json.dumps({"label": str("successful test search")})
-        # create a url for a crawler to fetch job information
-        if salary:
-            url = (
-                "https://www.google.com/search?q="
-                + keywords
-                + "%20salary%20"
-                + salary
-                + "&ibp=htl;jobs"
-            )
-        else:
-            url = "https://www.google.com/search?q=" + keywords + "&ibp=htl;jobs"
-
-        # webdriver can run the javascript and then render the page first.
-        # This prevent websites don't provide Server-side rendering
-        # leading to crawlers cannot fetch the page
-        chrome_options = Options()
-        # chrome_options.add_argument("--no-sandbox") # linux only
-        chrome_options.add_argument("--headless")
-        user_agent = (
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/71.0.3578.98 Safari/537.36 "
-        )
-        chrome_options.add_argument(f"user-agent={user_agent}")
-        driver = webdriver.Chrome(
-            ChromeDriverManager().install(), chrome_options=chrome_options
-        )
-        driver.get(url)
-        content = driver.page_source
-        driver.close()
-        soup = BeautifulSoup(content)
-
-        # parsing searching results to DataFrame and return
-        df = pd.DataFrame(columns=["jobTitle", "companyName", "location"])
-        mydivs = soup.find_all("div", {"class": "PwjeAc"})
-        for i, div in enumerate(mydivs):
-            df.at[i, "jobTitle"] = div.find("div", {"class": "BjJfJf PUpOsf"}).text
-            df.at[i, "companyName"] = div.find("div", {"class": "vNEEBe"}).text
-            df.at[i, "location"] = div.find("div", {"class": "Qk80Jf"}).text
-            df.at[i, "date"] = div.find_all("span", class_="SuWscb", limit=1)[0].text
-        return jsonify(df.to_dict("records"))
-
-    # get data from the CSV file for rendering root page
-    @app.route("/applications", methods=["GET"])
-    def get_data():
-        return getApplications(request,Users,userId)
-
-
-    @app.route("/applications", methods=["POST"])
-    def add_application():
-        """
-        Add a new job application for the user
-
-        :return: JSON object with status and message
-        """
-        try:
-            userid = get_userid_from_header()
-            try:
-                request_data = json.loads(request.data)["application"]
-                _ = request_data["jobTitle"]
-                _ = request_data["companyName"]
-            except:
-                return jsonify({"error": "Missing fields in input"}), 400
-
-            user = Users.objects(id=userid).first()
-            current_application = {
-                "id": get_new_application_id(userid),
-                "jobTitle": request_data["jobTitle"],
-                "companyName": request_data["companyName"],
-                "date": request_data.get("date"),
-                "jobLink": request_data.get("jobLink"),
-                "location": request_data.get("location"),
-                "status": request_data.get("status", "1"),
-            }
-            applications = user["applications"] + [current_application]
-
-            user.update(applications=applications)
-            return jsonify(current_application), 200
-        except:
-            return jsonify({"error": "Internal server error"}), 500
-
-    @app.route("/applications/<int:application_id>", methods=["PUT"])
-    def update_application(application_id):
-        """
-        Updates the existing job application for the user
-
-        :param application_id: Application id to be modified
-        :return: JSON object with status and message
-        """
-        try:
-            userid = get_userid_from_header()
-            try:
-                request_data = json.loads(request.data)["application"]
-            except:
-                return jsonify({"error": "No fields found in input"}), 400
-
-            user = Users.objects(id=userid).first()
-            current_applications = user["applications"]
-
-            if len(current_applications) == 0:
-                return jsonify({"error": "No applications found"}), 400
-            else:
-                updated_applications = []
-                app_to_update = None
-                application_updated_flag = False
-                for application in current_applications:
-                    if application["id"] == application_id:
-                        app_to_update = application
-                        application_updated_flag = True
-                        for key, value in request_data.items():
-                            application[key] = value
-                    updated_applications += [application]
-                if not application_updated_flag:
-                    return jsonify({"error": "Application not found"}), 400
-                user.update(applications=updated_applications)
-
-            return jsonify(app_to_update), 200
-        except:
-            return jsonify({"error": "Internal server error"}), 500
-
-    @app.route("/applications/<int:application_id>", methods=["DELETE"])
-    def delete_application(application_id):
-        """
-        Deletes the given job application for the user
-
-        :param application_id: Application id to be modified
-        :return: JSON object with status and message
-        """
-        try:
-            userid = get_userid_from_header()
-            user = Users.objects(id=userid).first()
-
-            current_applications = user["applications"]
-
-            application_deleted_flag = False
-            updated_applications = []
-            app_to_delete = None
-            for application in current_applications:
-                if application["id"] != application_id:
-                    updated_applications += [application]
-                else:
-                    app_to_delete = application
-                    application_deleted_flag = True
-
-            if not application_deleted_flag:
-                return jsonify({"error": "Application not found"}), 400
-            user.update(applications=updated_applications)
-            return jsonify(app_to_delete), 200
-        except:
-            return jsonify({"error": "Internal server error"}), 500
-
+        return searchRoute(request)
+          
     @app.route("/recommend", methods=["GET"])
     def recommend_resume():
-        """
-        Recommends a list of jobs in fortune 500 companies based on the user's resume using pdf parsing and ChatGPT
-        """
-        try:
-            userid = get_userid_from_header()
-            try:
-                user = Users.objects(id=userid).first()
-                if len(user.resume.read()) == 0:
-                    raise FileNotFoundError
-                else:
-                    user.resume.seek(0)
-            except:
-                return jsonify({"error": "resume could not be found"}), 400
-            
-            pdf_content = io.BytesIO(user.resume.read())
-            load_pdf = PyPDF2.PdfReader(pdf_content)
-            page_content = load_pdf.pages[0].extract_text()
-            prompt = "Analyse the resume below and recommend a list of 6 jobs for the user. All the comapanies should be among the fortune 500. The recommendations should be in a json format with company name, job title, and a link to the company career page.Only display the json. Json structure is {jobs: [{job_title:xx,company_name:xx,career_page:xx}]\n\nResume:\n\n" + page_content + "\n\nRecommendation JSON:"
-            message = [ {"role": "system", "content": prompt} ]
-            chat = openai.ChatCompletion.create( 
-            model="gpt-3.5-turbo", messages=message
-            ) 
-            reply = chat.choices[0].message.content 
-            return jsonify(reply), 200
-        except:
-            return jsonify({"error": "Internal server error"}), 500
-
-
-
+        return recommendRoute(request,Users)
+        
     @app.route("/resume", methods=["POST"])
     def upload_resume():
         """

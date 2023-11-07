@@ -1,5 +1,6 @@
 from flask import Request,jsonify
 from typing import List
+import os
 from datetime import datetime, timedelta
 
 def delete_auth_token(token_to_delete: str, user_id: str, Users):
@@ -21,7 +22,8 @@ def beforeRequestMiddleware(request: Request,existing_endpoints: List[str],Users
     try:
         if request.method == "OPTIONS":
             return jsonify({"success": "OPTIONS"}), 200
-        if request.path in existing_endpoints:
+        # need to check the root part of the route, applications,resume and recommanded are protected
+        if request.path.split(os.path.sep)[1] in existing_endpoints:
             headers = request.headers
             try:
                 token = headers["Authorization"].split(" ")[1]
