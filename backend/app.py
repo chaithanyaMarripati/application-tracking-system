@@ -1,10 +1,8 @@
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, request
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS, cross_origin
-import yaml,io,os,openai,PyPDF2
+import yaml
 from backend.utils.jsonResponse import jsonResponse
-from backend.utils.tokenFromHeader import tokenFromHeader
-from backend.utils.userIdFromtoken import getUseridFromtoken 
 from backend.routes.login import loginRoute
 from backend.routes.logout import logoutRoute
 from backend.routes.signup import signupRoute
@@ -12,6 +10,7 @@ from backend.middleware.beforeRequest import beforeRequestMiddleware
 from backend.routes.applications import getApplications,addApplication,updateApplication,deleteApplication
 from backend.routes.search import searchRoute
 from backend.routes.recommend import recommendRoute 
+from backend.routes.resume import getResumeRoute,uploadResumeRoute
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -48,13 +47,6 @@ def create_app():
     def middleware():
         return beforeRequestMiddleware(request,existing_endpoints,Users) 
 
-    def get_token_from_header():
-        return tokenFromHeader(request)
-
-
-    def get_userid_from_header():
-        return getUseridFromtoken(request)
-
     @app.route("/users/signup", methods=["POST"])
     def sign_up():
         return signupRoute(request,Users)
@@ -87,9 +79,6 @@ def create_app():
     def delete_application(application_id):
         return deleteApplication(request,application_id,Users)
 
-    # search function
-    # params:
-    #   -keywords: string
     @app.route("/search")
     def search():
         return searchRoute(request)
@@ -100,63 +89,11 @@ def create_app():
         
     @app.route("/resume", methods=["POST"])
     def upload_resume():
-        """
-        Uploads resume file or updates an existing resume for the user
-
-        :return: JSON object with status and message
-        """
-        try:
-            userid = get_userid_from_header()
-            try:
-                file = request.files["file"].read()
-            except:
-                return jsonify({"error": "No resume file found in the input"}), 400
-
-            user = Users.objects(id=userid).first()
-            if not user.resume.read():
-                # There is no file
-                user.resume.put(file)
-                user.save()
-                return jsonify({"message": "resume successfully uploaded"}), 200
-            else:
-                # There is a file, we are replacing it
-                user.resume.replace(file)
-                user.save()
-                return jsonify({"message": "resume successfully replaced"}), 200
-        except Exception as e:
-            print(e)
-            return jsonify({"error": "Internal server error"}), 500
+        return uploadResumeRoute(request,Users)
 
     @app.route("/resume", methods=["GET"])
     def get_resume():
-        """
-        Retrieves the resume file for the user
-
-        :return: response with file
-        """
-        try:
-            userid = get_userid_from_header()
-            try:
-                user = Users.objects(id=userid).first()
-                if len(user.resume.read()) == 0:
-                    raise FileNotFoundError
-                else:
-                    user.resume.seek(0)
-            except:
-                return jsonify({"error": "resume could not be found"}), 400
-
-            response = send_file(
-                user.resume,
-                mimetype="application/pdf",
-                attachment_filename="resume.pdf",
-                as_attachment=True,
-            )
-            response.headers["x-filename"] = "resume.pdf"
-            response.headers["Access-Control-Expose-Headers"] = "x-filename"
-            return response, 200
-        except:
-            return jsonify({"error": "Internal server error"}), 500
-
+        return getResumeRoute(request,Users)
     return app
 
 

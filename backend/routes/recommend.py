@@ -1,5 +1,5 @@
 from flask import Request,jsonify
-from backend.utils.userIdFromHeader import getUseridFromtoken 
+from backend.utils.userIdFromtoken import getUseridFromtoken
 import io,PyPDF2,os,openai
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
