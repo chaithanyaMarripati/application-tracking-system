@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_mongoengine import MongoEngine
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS,cross_origin
 import yaml
 from backend.utils.jsonResponse import jsonResponse
 from backend.routes.login import loginRoute
@@ -22,8 +22,7 @@ def create_app():
     app = Flask(__name__)
 
     # make flask support CORS
-    CORS(app)
-    app.config["CORS_HEADERS"] = "Content-Type"
+    CORS(app,origins=['*'],methods=['*'])
 
     @app.errorhandler(404)
     def page_not_found(e):
@@ -39,19 +38,22 @@ def create_app():
         return jsonResponse("server error",500)
 
     @app.route("/")
-    @cross_origin()
     def health_check():
         return jsonResponse("Server up and running",200)
 
     @app.before_request
     def middleware():
-        return beforeRequestMiddleware(request,existing_endpoints,Users) 
+        returnValue = beforeRequestMiddleware(request,existing_endpoints,Users)
+        print(returnValue, "checking return value here")
+        return returnValue
 
     @app.route("/users/signup", methods=["POST"])
+    @cross_origin()
     def sign_up():
         return signupRoute(request,Users)
        
     @app.route("/users/login", methods=["POST"])
+    @cross_origin()
     def login():
        return loginRoute(request,Users)
 
@@ -61,7 +63,8 @@ def create_app():
         return logoutRoute(request ,Users)
 
     # get data from the CSV file for rendering root page
-    @app.route("/applications", methods=["GET"])
+    @app.route("/application-tracking-system/applications", methods=["GET"])
+    @app.route("/applications",methods=["GET"])
     def get_data():
         return getApplications(request,Users)
 
@@ -70,12 +73,12 @@ def create_app():
     def add_application():
         return addApplication(request,Users)
 
-    @app.route("/applications/<int:application_id>", methods=["PUT"])
+    @app.route("/application-tracking-system/applications/<int:application_id>", methods=["PUT"])
     def update_application(application_id):
         return updateApplication(request,application_id,Users)
         
 
-    @app.route("/applications/<int:application_id>", methods=["DELETE"])
+    @app.route("/application-tracking-system/applications/<int:application_id>", methods=["DELETE"])
     def delete_application(application_id):
         return deleteApplication(request,application_id,Users)
 
