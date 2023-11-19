@@ -28,6 +28,7 @@ export default class CardBoard extends Component {
     const result = this.groupApplication(res.data);
     const cardTitles = this.createCardTitle(result);
     const cardClass = this.createCardClass(result);
+    console.log(this.state);
     this.setState({
       applications: res,
       card_titles: cardTitles,
@@ -35,6 +36,7 @@ export default class CardBoard extends Component {
     });
     console.log(res);
     console.log(this.state);
+    this.renderPage(result);
   }
 
   renderPage(newApplications) {
