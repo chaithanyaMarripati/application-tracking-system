@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Card from "./Card";
 import CardModal from "./CardModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   getApplications,
   updateApplication,
@@ -38,6 +41,9 @@ export default class CardBoard extends Component {
     console.log(this.state);
     this.renderPage(result);
   }
+  notify() {
+    return toast("so easy");
+  }
 
   renderPage(newApplications) {
     // helper function to render the page
@@ -69,7 +75,6 @@ export default class CardBoard extends Component {
     }
     this.renderPage(newApplications);
   }
-
   async deleteApplication(application) {
     const newApplications = this.state.applications;
     console.log("deleting id=" + application.id);
@@ -205,6 +210,10 @@ export default class CardBoard extends Component {
     }
     return (
       <span id="tab">
+        <div>
+          <button onClick={this.notify}>Notify!</button>
+          <ToastContainer />
+        </div>
         <div className="row">{this.state.card_titles}</div>
         <div className="row">{this.state.card_class}</div>
         {applicationModal}
