@@ -3,7 +3,7 @@ import Card from "./Card";
 import CardModal from "./CardModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import moment from "moment";
 import {
   getApplications,
   updateApplication,
@@ -24,6 +24,7 @@ export default class CardBoard extends Component {
     this.groupApplication = this.groupApplication.bind(this);
     this.createCardTitle = this.createCardTitle.bind(this);
     this.createCardClass = this.createCardClass.bind(this);
+    this.notify = this.notify.bind(this);
   }
 
   async componentDidMount() {
@@ -37,12 +38,18 @@ export default class CardBoard extends Component {
       card_titles: cardTitles,
       card_class: cardClass,
     });
-    console.log(res);
-    console.log(this.state);
     this.renderPage(result);
   }
-  notify() {
-    return toast("so easy");
+  async notify(text) {
+    // get all the applications, for each application
+    // check if due data has already passed.
+    // if it has --> show an error notification saying that due date has passed.
+    // if the due date is in next 2 days show a warning
+    return toast.error(text, {
+      autoClose: 3000,
+      pauseOnHover: false,
+      draggable: false,
+    });
   }
 
   renderPage(newApplications) {
@@ -57,6 +64,19 @@ export default class CardBoard extends Component {
       card_titles: cardTitle,
       card_class: cardClass,
       showModal: false,
+    });
+    console.log(result);
+    result.forEach((column) => {
+      if (
+        column.title == "Wish list" ||
+        column.title == "Waiting for referral"
+      ) {
+        column.applications.forEach((application) => {
+          const currentDate = moment(new Date()).format("YYYY-MM-DD");
+          if (currentDate > application.date)
+            this.notify(`Due date passed for ${application.companyName}`);
+        });
+      }
     });
   }
 
@@ -210,10 +230,7 @@ export default class CardBoard extends Component {
     }
     return (
       <span id="tab">
-        <div>
-          <button onClick={this.notify}>Notify!</button>
-          <ToastContainer />
-        </div>
+        <ToastContainer />
         <div className="row">{this.state.card_titles}</div>
         <div className="row">{this.state.card_class}</div>
         {applicationModal}
