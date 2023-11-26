@@ -1,50 +1,78 @@
 import React, { Component } from "react";
 import Card from "./Card";
 import CardModal from "./CardModal";
+import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   getApplications,
   updateApplication,
   createApplication,
   deleteApplication,
 } from "../api/applicationHandler";
+import FuzzySearch from 'fuzzy-search';
 
 export default class CardBoard extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      originalApplications:[],
       applications: [],
       card_titles: [],
       card_class: [],
       showModal: false,
+      searchText: "",
     };
     this.groupApplication = this.groupApplication.bind(this);
     this.createCardTitle = this.createCardTitle.bind(this);
     this.createCardClass = this.createCardClass.bind(this);
     this.notify = this.notify.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.checkForNotifications= this.checkForNotifications.bind(this);
   }
+  handleSearchChange(event) {
+    
+    const fuse = new FuzzySearch(this.state.originalApplications,["companyName","date","jobLink","jobTitle","location"])
+    const searchResults = fuse.search(event.target.value);
+    this.setState({
+      searchText: event.target.value,
+      applications: searchResults
+    },()=>{
+      //tech debt, this should not be in a callback
+      const result = this.groupApplication();
+    const cardClass = this.createCardClass(result);
 
+    this.setState({
+      card_class: cardClass,
+    });
+    });
+
+    
+  }
   async componentDidMount() {
     const res = await getApplications();
     const result = this.groupApplication(res.data);
     const cardTitles = this.createCardTitle(result);
     const cardClass = this.createCardClass(result);
-    console.log(this.state);
     this.setState({
+      originalApplications:res,
       applications: res,
       card_titles: cardTitles,
       card_class: cardClass,
     });
     this.renderPage(result);
+    this.checkForNotifications();
   }
   async notify(text) {
     // get all the applications, for each application
     // check if due data has already passed.
     // if it has --> show an error notification saying that due date has passed.
-    // if the due date is in next 2 days show a warning
+    // if the due date is in next 2 days show a warnin
+    
     return toast.error(text, {
       autoClose: 3000,
       pauseOnHover: false,
@@ -52,20 +80,8 @@ export default class CardBoard extends Component {
     });
   }
 
-  renderPage(newApplications) {
-    // helper function to render the page
-    // rerender the page to represent the update result
-    const result = this.groupApplication(newApplications);
-    const cardTitle = this.createCardTitle(result);
-    const cardClass = this.createCardClass(result);
-
-    this.setState({
-      applications: newApplications,
-      card_titles: cardTitle,
-      card_class: cardClass,
-      showModal: false,
-    });
-    console.log(result);
+  checkForNotifications(){
+    const result = this.groupApplication(this.state.applications);
     result.forEach((column) => {
       if (
         column.title == "Wish list" ||
@@ -80,6 +96,19 @@ export default class CardBoard extends Component {
     });
   }
 
+  renderPage(newApplications) {
+    // helper function to render the page
+    // rerender the page to represent the update result
+    const result = this.groupApplication(newApplications);
+    const cardTitle = this.createCardTitle(result);
+    const cardClass = this.createCardClass(result);
+    this.setState({
+      card_titles: cardTitle,
+      card_class: cardClass,
+      showModal: false,
+    });
+  }
+
   // the update function for child component
   async updateCardBoard(application) {
     const newApplications = this.state.applications;
@@ -87,7 +116,6 @@ export default class CardBoard extends Component {
       const res = await createApplication(application);
       newApplications.push(res);
     } else {
-      console.log("updating id=" + application.id);
       const res = await updateApplication(application.id, application);
       const updatedApp = res;
       const idx = newApplications.findIndex((a) => a.id === updatedApp.id);
@@ -97,7 +125,6 @@ export default class CardBoard extends Component {
   }
   async deleteApplication(application) {
     const newApplications = this.state.applications;
-    console.log("deleting id=" + application.id);
     const res = await deleteApplication(application.id, application);
     const deletedApp = res.data;
     const idx = newApplications.findIndex((a) => a.id === deletedApp.id);
@@ -231,6 +258,20 @@ export default class CardBoard extends Component {
     return (
       <span id="tab">
         <ToastContainer />
+        <TextField
+          id="outlined-basic"
+          label="Search"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          }}
+          variant="standard"
+          onChange={this.handleSearchChange}
+          value={this.state.searchText}
+        />
         <div className="row">{this.state.card_titles}</div>
         <div className="row">{this.state.card_class}</div>
         {applicationModal}
