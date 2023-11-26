@@ -11,6 +11,7 @@ from backend.routes.applications import getApplications,addApplication,updateApp
 from backend.routes.search import searchRoute
 from backend.routes.recommend import recommendRoute 
 from backend.routes.resume import getResumeRoute,uploadResumeRoute
+from backend.routes.share import shareApplications
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -97,6 +98,11 @@ def create_app():
     @app.route("/resume", methods=["GET"])
     def get_resume():
         return getResumeRoute(request,Users)
+    
+    @app.route("/share",methods=["POST"])
+    def share_applications():
+        return shareApplications(request,Users)
+    
     return app
 
 
