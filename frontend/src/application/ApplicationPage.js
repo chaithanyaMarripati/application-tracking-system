@@ -10,6 +10,8 @@ import {
   createApplication,
   deleteApplication,
 } from "../api/applicationHandler";
+import ShareModal from "./ShareModal";
+import Button from "react-bootstrap/Button";
 
 export default class CardBoard extends Component {
   constructor(props) {
@@ -20,11 +22,14 @@ export default class CardBoard extends Component {
       card_titles: [],
       card_class: [],
       showModal: false,
+      shareModal: false,
     };
     this.groupApplication = this.groupApplication.bind(this);
     this.createCardTitle = this.createCardTitle.bind(this);
     this.createCardClass = this.createCardClass.bind(this);
     this.notify = this.notify.bind(this);
+    this.showShareModal = this.showShareModal.bind(this);
+    this.closeShareModal = this.closeShareModal.bind(this);
   }
 
   async componentDidMount() {
@@ -79,7 +84,6 @@ export default class CardBoard extends Component {
       }
     });
   }
-
   // the update function for child component
   async updateCardBoard(application) {
     const newApplications = this.state.applications;
@@ -123,6 +127,17 @@ export default class CardBoard extends Component {
     });
   }
 
+  showShareModal() {
+    this.setState({
+      shareModal: true,
+    });
+  }
+
+  closeShareModal() {
+    this.setState({
+      shareModal: false,
+    });
+  }
   // create all cards(application) and make cards having the same class in the same column
   createCardClass(applicationsGroup) {
     return applicationsGroup.reduce((pv, v) => {
@@ -231,6 +246,13 @@ export default class CardBoard extends Component {
     return (
       <span id="tab">
         <ToastContainer />
+        <Button variant="primary" onClick={this.showShareModal}>
+          Share with friends
+        </Button>
+        <ShareModal
+          show={this.state.shareModal}
+          closeShareModal={this.closeShareModal}
+        />
         <div className="row">{this.state.card_titles}</div>
         <div className="row">{this.state.card_class}</div>
         {applicationModal}
