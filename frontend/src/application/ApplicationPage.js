@@ -89,8 +89,8 @@ export default class CardBoard extends Component {
     const result = this.groupApplication(this.state.applications);
     result.forEach((column) => {
       if (
-        column.title == "Wish list" ||
-        column.title == "Waiting for referral"
+        column.title === "Wish list" ||
+        column.title === "Waiting for referral"
       ) {
         column.applications.forEach((application) => {
           const currentDate = moment(new Date()).format("YYYY-MM-DD");
