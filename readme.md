@@ -2,11 +2,11 @@ https://user-images.githubusercontent.com/89501363/144725439-5d9191f8-df13-4814-
 
 [![GitHub license](https://img.shields.io/github/license/Cynamide/application-tracking-system)](https://github.com/chaithanyaMarripati/application-tracking-system/blob/main/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211922.svg)](https://doi.org/10.5281/zenodo.10211922)
-[![codecov](https://codecov.io/gh/Cynamide/application-tracking-system/branch/main/graph/badge.svg)](https://codecov.io/gh/Cynamide/application-tracking-system)
+[![codecov](https://codecov.io/gh/chaithanyaMarripati/application-tracking-system/branch/main/graph/badge.svg)](https://codecov.io/gh/Cynamide/application-tracking-system)
 ![GitHub issues](https://img.shields.io/github/issues/chaithanyaMarripati/application-tracking-system)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/chaithanyaMarripati/application-tracking-system)
 ![GitHub top language](https://img.shields.io/github/languages/top/Cynamide/application-tracking-system)
-[![Super Linter](https://github.com/Cynamide/application-tracking-system/actions/workflows/super-linter.yml/badge.svg)](https://github.com/Cynamide/application-tracking-system/actions/workflows/super-linter.yml)
+[![Super Linter](https://github.com/chaithanyaMarripati/application-tracking-system/actions/workflows/super-linter.yml/badge.svg)](https://github.com/Cynamide/application-tracking-system/actions/workflows/super-linter.yml)
 
 # J-Tracker - Your Job Tracking Assistant
 
