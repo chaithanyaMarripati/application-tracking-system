@@ -1,7 +1,7 @@
 https://user-images.githubusercontent.com/89501363/144725439-5d9191f8-df13-4814-aa15-99cd752ab0cc.mp4
 
 [![GitHub license](https://img.shields.io/github/license/Cynamide/application-tracking-system)](https://github.com/Cynamide/application-tracking-system/blob/main/LICENSE)
-[![DOI](https://zenodo.org/badge/702631309.svg)](https://zenodo.org/doi/10.5281/zenodo.10026046)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211922.svg)](https://doi.org/10.5281/zenodo.10211922)
 [![codecov](https://codecov.io/gh/Cynamide/application-tracking-system/branch/main/graph/badge.svg)](https://codecov.io/gh/Cynamide/application-tracking-system)
 ![GitHub issues](https://img.shields.io/github/issues/Cynamide/application-tracking-system)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/Cynamide/application-tracking-system)
@@ -134,7 +134,6 @@ The interface through which a user is able to search for specific jobs based on 
 **Job Recommendations Video (Added in Version 1.1.1)**
 Watch: https://github.com/Cynamide/application-tracking-system/blob/ff0691c919330a2c8cf80854fe969e31214671b4/resources/JobRecommendationsDemo.mp4
 
-
 ## Roadmap:
 
 ![Roadmap](https://github.com/prithvish-doshi-17/application-tracking-system/blob/main/resources/Roadmap%20-%202.PNG)
@@ -232,7 +231,7 @@ mongod
 
 1. [Create account](https://account.mongodb.com/account/register) for MongoDB
 
-** **_If current MongoDB Atlas owner adds your username/password to the cluster, skip to step 4_** **
+\*\* **_If current MongoDB Atlas owner adds your username/password to the cluster, skip to step 4_** \*\*
 
 2. Follow MongoDB Atlas [Setup Guide](https://docs.atlas.mongodb.com/getting-started/) to create a database collection for hosting applications
 3. In `app.py` set `'host'` string to your MongoDB Atlas connection string
