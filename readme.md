@@ -258,9 +258,9 @@ The project is licensed under the [MIT](https://choosealicense.com/licenses/mit/
 
 Please see our CONTRIBUTING.md for instructions on how to contribute to the repository and assist us in improving the project.
 
-## Team Members (Group 16)
+## Team Members (Group 18)
 
-- Arjit Agarwal
-- Mark Feng
-- Reuben Thomas
-- Sumedh Deepak Patkar
+- [Krishna Chaitanya Marripati](https://github.com/chaithanyaMarripati)
+- [Sai Vikas Reddy Yeddulamala](https://github.com/saivikasreddy717)
+- [Sai Subhang Boorlagadda](https://github.com/chaithanyaMarripati)
+- [Basaveswara Mukesh Suryadevara](https://github.com/S-B-Mukesh)
