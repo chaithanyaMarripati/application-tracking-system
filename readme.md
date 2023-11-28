@@ -1,10 +1,10 @@
 https://user-images.githubusercontent.com/89501363/144725439-5d9191f8-df13-4814-aa15-99cd752ab0cc.mp4
 
-[![GitHub license](https://img.shields.io/github/license/Cynamide/application-tracking-system)](https://github.com/Cynamide/application-tracking-system/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/Cynamide/application-tracking-system)](https://github.com/chaithanyaMarripati/application-tracking-system/blob/main/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211922.svg)](https://doi.org/10.5281/zenodo.10211922)
 [![codecov](https://codecov.io/gh/Cynamide/application-tracking-system/branch/main/graph/badge.svg)](https://codecov.io/gh/Cynamide/application-tracking-system)
-![GitHub issues](https://img.shields.io/github/issues/Cynamide/application-tracking-system)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/Cynamide/application-tracking-system)
+![GitHub issues](https://img.shields.io/github/issues/chaithanyaMarripati/application-tracking-system)
+![GitHub closed issues](https://img.shields.io/github/issues-closed/chaithanyaMarripati/application-tracking-system)
 ![GitHub top language](https://img.shields.io/github/languages/top/Cynamide/application-tracking-system)
 [![Super Linter](https://github.com/Cynamide/application-tracking-system/actions/workflows/super-linter.yml/badge.svg)](https://github.com/Cynamide/application-tracking-system/actions/workflows/super-linter.yml)
 
@@ -79,6 +79,18 @@ The interface through which a user is able to search for specific jobs and add t
 <p align="center"><img width="700" src="./resources/search.png"></p>
 <p align="center"><img width="700" src="./resources/newjobdetails1.PNG"></p>
 
+### Share with friends 
+
+Share the applications status with friends via email 
+
+1. click on share with friends button
+2. select the column you want to share with friends
+3. enter the email address
+4. click on send button to be able to share the details
+
+<p align="center"><img width="700" src="./resources/share.png"></p>
+
+
 ### SearchPage with Salary filter
 
 The interface through which a user is able to search for specific jobs based on the salary range selected.
@@ -131,6 +143,12 @@ The interface through which a user is able to search for specific jobs based on 
 - Updated badges for repository
 - Updated GitHub workflows files
 
+#### Version 1.2.0
+- Added deadline reminder using google calendar
+- Deadline notifications on the main dashboard
+- Fuzzy search implemented on the main page, search for jobTitle, companyName, date and jobLink
+- share with friends, to be able to share the applications status with friends via email
+
 **Job Recommendations Video (Added in Version 1.1.1)**
 Watch: https://github.com/Cynamide/application-tracking-system/blob/ff0691c919330a2c8cf80854fe969e31214671b4/resources/JobRecommendationsDemo.mp4
 
@@ -141,9 +159,6 @@ Watch: https://github.com/Cynamide/application-tracking-system/blob/ff0691c91933
 ## Future Scope:
 
 - Include deadline reminders for the application and interview.
-- Add a feature that allows users to attach these reminders to their Google calendar.
-- Incorporate notifications for upcoming deadlines.
-- Add a storage option for resumes and cover letters so they can be saved for future use.
 - Include a direct link to the company's application site when the wishlist item is clicked.
 - Include a link to the university’s career fair page.
 - Direct connection to LinkedIn, allowing for the addition of job opportunities to the wishlist.
@@ -176,41 +191,16 @@ Any details in any table can be modified at any time during the process.
 - [pip](https://pip.pypa.io/en/stable/installation/) (Latest version 21.3 used as of 11/3)
 - [npm](https://nodejs.org/en/) (Latest version 6.14.4 used as of 11/3)
 
-### Strongly Recommended:
-
-- A terminal environment capable of handling bash scripts.
-
-To install all required packages, while within the context of project root directory, run:
-
-```
-./setup.sh
-```
-
-This will handle all npm and pip package installations required for both the front and backend.
-
-_If the script says "command not found" or something similar, run chmod +x ./setup.sh. This grants the script execution privileges. Depending on your setup, this may occur for the boot_dockerless files, amongst others. The same command will fix the issue._
-
 ## Getting Started:
 
-### Boot:
+docker and docker compose are used to start and run the application 
+make sure you download the latest version of docker desktop from [Link](https://www.docker.com/products/docker-desktop/)
 
-To run a testing environment, run:
-
-```
-./startup.sh
-```
-
-This will run flask and npm simultaneously, booting both the front and backend. Note - npm takes substantially longer to boot compared to flask.
-
-### Shutdown:
-
-To ensure that flask is no longer occupying a port, run:
+Run the following command in your terminal
 
 ```
-./shutdown.sh
+docker compose up
 ```
-
-This will search for any active process containing "flask" and kill the process.
 
 ## Hosting the Database:
 
@@ -261,5 +251,5 @@ Please see our CONTRIBUTING.md for instructions on how to contribute to the repo
 
 - [Krishna Chaitanya Marripati](https://github.com/chaithanyaMarripati)
 - [Sai Vikas Reddy Yeddulamala](https://github.com/saivikasreddy717)
-- [Sai Subhang Boorlagadda](https://github.com/chaithanyaMarripati)
+- [Sai Subhang Boorlagadda](https://github.com/subhang51011)
 - [Basaveswara Mukesh Suryadevara](https://github.com/S-B-Mukesh)
